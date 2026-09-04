@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ShowAllFiles>true</ShowAllFiles>
+  </PropertyGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectName>YRQuickBoard</ProjectName>
+    <RootNamespace>YRQuickBoard</RootNamespace>
+    <ProjectGuid>{BCE3CCF0-88D9-42C8-B010-22F88102E239}</ProjectGuid>
+    <VCProjectVersion>15.0</VCProjectVersion>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ThisDir>$(MSBuildThisFileDirectory)</ThisDir>
+    <YRppDir>$(ThisDir)YRpp</YRppDir>
+  </PropertyGroup>
+  <Import Project="$(ThisDir)\YRQuickBoard.props" />
+  <Import Project="$(YRppDir)\YRpp.props" />
+  <ItemGroup>
+    <ClCompile Include="src\Commands\QuickBoardCommand.cpp" />
+    <ClCompile Include="src\Hooks\CommandRegister.cpp" />
+    <ClCompile Include="src\Hooks\DefaultHotkey.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\Commands\QuickBoardCommand.h" />
+  </ItemGroup>
+</Project>

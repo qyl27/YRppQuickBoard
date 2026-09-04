@@ -1,0 +1,16 @@
+[Dd]ebug/
+[Rr]elease/
+*.dll
+*.pdb
+*.lib
+*.exp
+*.obj
+*.pgd
+*.idb
+*.ilk
+*.user
+*.suo
+*.aps
+*.log
+.vs/
+.idea/

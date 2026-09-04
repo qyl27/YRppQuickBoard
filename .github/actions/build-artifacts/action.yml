@@ -1,0 +1,39 @@
+name: 'Build Artifacts'
+description: 'Build solution with MSBuild and upload the DLL and PDB artifacts'
+
+inputs:
+  sln-path:
+    description: 'Path to the solution file relative to the root of the project'
+    required: false
+    default: '.'
+  build-config:
+    description: 'Configuration to build'
+    required: true
+  version-tag:
+    description: 'Version tag appended to output file names'
+    required: false
+    default: ${{ github.sha }}
+
+runs:
+  using: "composite"
+  steps:
+  - name: Add MSBuild to PATH
+    uses: microsoft/setup-msbuild@30375c66a4eea26614e0d39710365f22f8b0af57 # v3
+    with:
+      vs-version: '[16.0, )'
+
+  - uses: ammaraskar/msvc-problem-matcher@541aa4360062d76d9620af6b8bd35cfa0c5ef19f # master, 领先于 0.3.0
+
+  - name: Build
+    working-directory: ${{ env.GITHUB_WORKSPACE }}
+    run: msbuild /m /p:Configuration=${{ inputs.build-config }} /p:TargetName=YRQuickBoard-${{ inputs.version-tag }} ${{ inputs.sln-path }}
+    shell: cmd
+
+  - name: Upload Artifacts
+    if: ${{ success() }}
+    uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+    with:
+      name: artifacts
+      path: |
+        ${{ inputs.sln-path }}/${{ inputs.build-config }}/YRQuickBoard-${{ inputs.version-tag }}.dll
+        ${{ inputs.sln-path }}/${{ inputs.build-config }}/YRQuickBoard-${{ inputs.version-tag }}.pdb

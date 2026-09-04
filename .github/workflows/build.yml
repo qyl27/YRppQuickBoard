@@ -1,0 +1,27 @@
+name: Build
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+env:
+  SOLUTION_FILE_PATH: .
+  BUILD_CONFIGURATION: Debug
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          submodules: recursive
+
+      - uses: rlespinasse/github-slug-action@ef93b2ea4b6405d06fd8684fc3ff795d262ecae8 # v5
+
+      - name: Build Artifacts
+        uses: ./.github/actions/build-artifacts
+        with:
+          sln-path: ${{ env.SOLUTION_FILE_PATH }}
+          build-config: ${{ env.BUILD_CONFIGURATION }}
+          version-tag: ${{ env.GITHUB_REF_SLUG }}-${{ env.GITHUB_SHA_SHORT }}
